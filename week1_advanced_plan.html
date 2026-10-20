@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python 进阶一周学习计划</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text-dim: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --purple: #bc8cff;
+  --orange: #db6d28;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 1.8em;
+  text-align: center;
+  margin: 20px 0 10px;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9em;
+  margin-bottom: 30px;
+}
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: 1.3em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.day-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 28px;
+  border-radius: 14px;
+  font-size: 0.75em;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.badge-blue { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+.badge-green { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+.badge-purple { background: rgba(188,140,255,0.15); color: var(--purple); border: 1px solid rgba(188,140,255,0.3); }
+.badge-orange { background: rgba(219,109,40,0.15); color: var(--orange); border: 1px solid rgba(219,109,40,0.3); }
+.badge-red { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+.badge-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); border: 1px solid rgba(210,153,34,0.3); }
+.badge-cyan { background: rgba(56,139,253,0.15); color: #38bdf8; border: 1px solid rgba(56,139,253,0.3); }
+.topic {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  transition: border-color 0.2s;
+}
+.topic:hover { border-color: var(--accent); }
+.topic-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.topic-icon { font-size: 1.1em; }
+.topic-name { font-weight: 600; }
+.topic-desc { color: var(--text-dim); font-size: 0.88em; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.tag {
+  font-size: 0.72em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-dim);
+}
+.tag-key { background: rgba(88,166,255,0.1); color: var(--accent); }
+.tag-proj { background: rgba(63,185,80,0.1); color: var(--green); }
+.tag-note { background: rgba(210,153,34,0.1); color: var(--yellow); }
+.code-block {
+  background: #1e242c;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin: 10px 0;
+  font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  font-size: 0.82em;
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.5;
+}
+.kw { color: #ff7b72; }
+.fn { color: #d2a8ff; }
+.str { color: #a5d6ff; }
+.num { color: #79c0ff; }
+.cmt { color: #6e7681; }
+.dec { color: #ffa657; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.85em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+}
+th { background: rgba(255,255,255,0.04); color: var(--accent); }
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.overview-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.overview-card .day-num { font-size: 1.5em; font-weight: 700; }
+.overview-card .day-title { font-size: 0.85em; color: var(--text-dim); margin-top: 4px; }
+.overview-card .day-proj { font-size: 0.78em; color: var(--green); margin-top: 8px; }
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 4px;
+}
+.footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.8em;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<h1>Python 进阶一周学习计划</h1>
+<p class="subtitle">面向对象 + Python 进阶基础 | 7 天冲刺</p>
+
+<div class="progress-bar">
+  <div class="progress-fill" style="width: 100%"></div>
+</div>
+
+<!-- 总览 -->
+<div class="section">
+  <div class="section-title">📊 一周全景</div>
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="day-num" style="color:var(--accent)">Day 1-2</div>
+      <div class="day-title">Python 进阶基础</div>
+      <div class="day-proj">lambda + map/filter + 装饰器</div>
+    </div>
+    <div class="overview-card">
+      <div class="day-num" style="color:var(--purple)">Day 3-5</div>
+      <div class="day-title">面向对象编程</div>
+      <div class="day-proj">类 → 封装 → 继承 → 魔术方法</div>
+    </div>
+    <div class="overview-card">
+      <div class="day-num" style="color:var(--green)">Day 6-7</div>
+      <div class="day-title">进阶实战</div>
+      <div class="day-proj">迭代器/生成器 + 记账本重构</div>
+    </div>
+  </div>
+</div>
+
+<!-- Day 1 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-blue">Day 1</span>
+    Python 进阶基础（上）
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🔧</span>
+      <span class="topic-name">*args 和 **kwargs</span>
+    </div>
+    <div class="topic-desc">函数接收不定数量的参数</div>
+    <div class="code-block"><span class="cmt"># *args 收集成元组，**kwargs 收集成字典</span>
+<span class="kw">def</span> <span class="fn">func</span>(*args, **kwargs):
+    <span class="kw">print</span>(args)       <span class="cmt"># (1, 2, 3)</span>
+    <span class="kw">print</span>(kwargs)    <span class="cmt"># {'name': '小明', 'age': 20}</span>
+
+func(1, 2, 3, name=<span class="str">"小明"</span>, age=<span class="num">20</span>)</div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">参数解包</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">⚡</span>
+      <span class="topic-name">lambda 匿名函数</span>
+    </div>
+    <div class="topic-desc">一行写完简单函数，常配合 map/filter/sorted 使用</div>
+    <div class="code-block"><span class="cmt"># 普通函数</span>
+<span class="kw">def</span> <span class="fn">square</span>(x): <span class="kw">return</span> x ** 2
+
+<span class="cmt"># lambda 写法</span>
+square = <span class="kw">lambda</span> x: x ** 2
+
+<span class="cmt"># 常见用法：排序时指定 key</span>
+students = [(<span class="str">"小明"</span>, 90), (<span class="str">"小红"</span>, 85)]
+students.sort(key=<span class="kw">lambda</span> s: s[1], reverse=True)</div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">函数式编程入门</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🔄</span>
+      <span class="topic-name">map / filter / sorted(key=)</span>
+    </div>
+    <div class="topic-desc">高阶函数：对集合做变换、筛选、排序</div>
+    <div class="code-block">nums = [1, 2, 3, 4, 5, 6]
+
+<span class="cmt"># map：对每个元素做变换</span>
+squares = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x: x**2, nums))   <span class="cmt"># [1,4,9,16,25,36]</span>
+
+<span class="cmt"># filter：筛选满足条件的</span>
+evens = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x%2==0, nums))  <span class="cmt"># [2,4,6]</span>
+
+<span class="cmt"># sorted：自定义排序规则</span>
+sorted_nums = <span class="fn">sorted</span>(nums, key=<span class="kw">lambda</span> x: -x)   <span class="cmt"># 降序</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">配合 lambda 使用</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📌</span>
+      <span class="topic-name">zip / enumerate 进阶</span>
+    </div>
+    <div class="topic-desc">并行遍历多个列表、带索引遍历</div>
+    <div class="code-block">names = [<span class="str">"小明"</span>, <span class="str">"小红"</span>]
+scores = [90, 85]
+
+<span class="cmt"># zip：两个列表配对</span>
+<span class="kw">for</span> name, score <span class="kw">in</span> <span class="fn">zip</span>(names, scores):
+    <span class="kw">print</span>(f<span class="str">"{name}: {score}分"</span>)
+
+<span class="cmt"># enumerate：带索引（指定起始值）</span>
+<span class="kw">for</span> i, name <span class="kw">in</span> <span class="fn">enumerate</span>(names, 1):
+    <span class="kw">print</span>(f<span class="str">"第{i}名: {name}"</span>)
+
+<span class="cmt"># zip + dict：快速建字典</span>
+grade_dict = <span class="fn">dict</span>(<span class="fn">zip</span>(names, scores))  <span class="cmt"># {'小明': 90, '小红': 85}</span></div>
+    <div class="tags">
+      <span class="tag">实用技巧</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📋</span>
+      <span class="topic-name">可变默认参数陷阱</span>
+    </div>
+    <div class="topic-desc">Python 最经典的坑之一，面试必考</div>
+    <div class="code-block"><span class="cmt"># ❌ 陷阱：默认参数只创建一次，共享！</span>
+<span class="kw">def</span> <span class="fn">add_item</span>(item, lst=[]):  <span class="cmt"># [] 只创建一次</span>
+    lst.append(item)
+    <span class="kw">return</span> lst
+
+add_item(1)   <span class="cmt"># [1]</span>
+add_item(2)   <span class="cmt"># [1, 2]  ← 之前的还在！</span>
+
+<span class="cmt"># ✅ 正确做法：用 None</span>
+<span class="kw">def</span> <span class="fn">add_item</span>(item, lst=<span class="kw">None</span>):
+    <span class="kw">if</span> lst <span class="kw">is</span> <span class="kw">None</span>:
+        lst = []
+    lst.append(item)
+    <span class="kw">return</span> lst</div>
+    <div class="tags">
+      <span class="tag tag-note">⚠️ 面试必考</span>
+      <span class="tag">经典陷阱</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 2 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-blue">Day 2</span>
+    Python 进阶基础（下）
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🎁</span>
+      <span class="topic-name">装饰器（@decorator）</span>
+    </div>
+    <div class="topic-desc">在不改函数代码的前提下，给函数加新功能</div>
+    <div class="code-block"><span class="cmt"># 装饰器：接收函数，返回新函数</span>
+<span class="kw">def</span> <span class="fn">log</span>(func):
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        <span class="kw">print</span>(f<span class="str">"调用 {func.__name__}"</span>)
+        result = func(*args, **kwargs)
+        <span class="kw">print</span>(f<span class="str">"调用结束"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+@log  <span class="cmt"># 等价于 say_hi = log(say_hi)</span>
+<span class="kw">def</span> <span class="fn">say_hi</span>(name):
+    <span class="kw">print</span>(f<span class="str">"你好，{name}"</span>)
+
+say_hi(<span class="str">"小明"</span>)
+<span class="cmt"># 输出：</span>
+<span class="cmt"># 调用 say_hi</span>
+<span class="cmt"># 你好，小明</span>
+<span class="cmt"># 调用结束</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">面试高频</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📦</span>
+      <span class="topic-name">模块和包（import 进阶）</span>
+    </div>
+    <div class="topic-desc">代码组织、__name__ == "__main__、第三方库安装</div>
+    <div class="code-block"><span class="cmt"># math_utils.py</span>
+<span class="kw">def</span> <span class="fn">add</span>(a, b):
+    <span class="kw">return</span> a + b
+
+PI = 3.14159
+
+<span class="cmt"># main.py</span>
+<span class="kw">import</span> math_utils          <span class="cmt"># 导入整个模块</span>
+<span class="kw">from</span> math_utils <span class="kw">import</span> add  <span class="cmt"># 只导入 add</span>
+<span class="kw">from</span> math_utils <span class="kw">import</span> *  <span class="cmt"># 导入所有（不推荐）</span>
+
+<span class="cmt"># 安装第三方库</span>
+<span class="cmt"># pip install requests</span>
+<span class="cmt"># pip install pandas</span>
+
+<span class="cmt"># __name__ == "__main__" 的含义</span>
+<span class="cmt"># 直接运行此文件 → __name__ == "__main__" → 执行</span>
+<span class="cmt"># 被别人 import → __name__ == "模块名" → 不执行</span></div>
+    <div class="tags">
+      <span class="tag">代码组织</span>
+      <span class="tag">pip 基础</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📋</span>
+      <span class="topic-name">深浅拷贝</span>
+    </div>
+    <div class="topic-desc">copy vs deepcopy，嵌套列表的坑</div>
+    <div class="code-block"><span class="kw">import</span> copy
+
+a = [[1, 2], [3, 4]]
+
+b = a                    <span class="cmt"># 引用：改b就是改a</span>
+c = a.copy()             <span class="cmt"># 浅拷贝：外层独立，内层共享</span>
+d = copy.deepcopy(a)     <span class="cmt"># 深拷贝：完全独立</span>
+
+a[0][0] = 99
+<span class="kw">print</span>(b)  <span class="cmt"># [[99,2],[3,4]]  ← 变了</span>
+<span class="kw">print</span>(c)  <span class="cmt"># [[99,2],[3,4]]  ← 也变了！</span>
+<span class="kw">print</span>(d)  <span class="cmt"># [[1,2],[3,4]]    ← 没变 ✅</span></div>
+    <div class="tags">
+      <span class="tag tag-note">⚠️ 易错点</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🧩</span>
+      <span class="topic-name">类型注解（Type Hints）</span>
+    </div>
+    <div class="topic-desc">给变量和函数标注类型，提高可读性</div>
+    <div class="code-block"><span class="cmt"># 函数标注参数和返回值类型</span>
+<span class="kw">def</span> <span class="fn">add</span>(a: <span class="dec">int</span>, b: <span class="dec">int</span>) -> <span class="dec">int</span>:
+    <span class="kw">return</span> a + b
+
+<span class="cmt"># 变量标注类型</span>
+name: <span class="dec">str</span> = <span class="str">"小明"</span>
+age: <span class="dec">int</span> = 20
+scores: <span class="dec">list</span>[<span class="dec">int</span>] = [90, 85, 78]
+
+<span class="cmt"># 注解不强制，Python 不会检查，但 IDE 会提示</span>
+add(<span class="str">"a"</span>, <span class="str">"b"</span>)  <span class="cmt"># 不报错，但 IDE 会警告</span></div>
+    <div class="tags">
+      <span class="tag">现代 Python 写法</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 3 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-purple">Day 3</span>
+    类和对象基础
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🏠</span>
+      <span class="topic-name">什么是类？类和对象的关系</span>
+    </div>
+    <div class="topic-desc">类 = 模板/蓝图，对象 = 用模板造出来的具体实例</div>
+    <table>
+      <tr><th>概念</th><th>术语</th><th>例子</th></tr>
+      <tr><td>模板</td><td>类 class</td><td>"学生"这个概念</td></tr>
+      <tr><td>用模板造的</td><td>对象 object</td><td>小明同学</td></tr>
+      <tr><td>模板里的数据</td><td>属性 attribute</td><td>姓名、年龄</td></tr>
+      <tr><td>模板里的操作</td><td>方法 method</td><td>学习、考试</td></tr>
+    </table>
+    <div class="code-block"><span class="cmt"># 定义类</span>
+<span class="kw">class</span> <span class="dec">Student</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, age):  <span class="cmt"># 初始化方法</span>
+        self.name = name    <span class="cmt"># 属性</span>
+        self.age = age
+
+    <span class="kw">def</span> <span class="fn">study</span>(self):               <span class="cmt"># 方法</span>
+        <span class="kw">print</span>(f<span class="str">"{self.name}正在学习"</span>)
+
+<span class="cmt"># 造对象（实例化）</span>
+s1 = Student(<span class="str">"小明"</span>, 20)
+s2 = Student(<span class="str">"小红"</span>, 21)
+
+s1.study()   <span class="cmt"># 小明正在学习</span>
+<span class="kw">print</span>(s2.name)  <span class="cmt"># 小红</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag tag-proj">实战：写 Student 类</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🔑</span>
+      <span class="topic-name">__init__ 构造方法 和 self</span>
+    </div>
+    <div class="topic-desc">__init__ 在创建对象时自动调用；self 就是对象自己</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Dog</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, breed):
+        <span class="cmt"># self = 正在创建的那个对象</span>
+        <span class="cmt"># 把数据绑定到对象身上</span>
+        self.name = name
+        self.breed = breed
+        self.energy = 100    <span class="cmt"># 默认值</span>
+
+    <span class="kw">def</span> <span class="fn">bark</span>(self):
+        <span class="kw">print</span>(f<span class="str">"{self.name}：汪汪汪！"</span>)
+
+    <span class="kw">def</span> <span class="fn">run</span>(self):
+        self.energy -= 10
+        <span class="kw">print</span>(f<span class="str">"{self.name}跑了一圈，精力{self.energy}"</span>)
+
+dog = Dog(<span class="str">"旺财"</span>, <span class="str">"金毛"</span>)
+dog.bark()   <span class="cmt"># 旺财：汪汪汪！</span>
+dog.run()    <span class="cmt"># 旺财跑了一圈，精力90</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📊</span>
+      <span class="topic-name">实例方法 vs 类方法 vs 静态方法</span>
+    </div>
+    <div class="topic-desc">三种方法的区别和使用场景</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">BankAccount</span>:
+    bank_name = <span class="str">"中国银行"</span>   <span class="cmt"># 类属性</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, owner, balance):
+        self.owner = owner       <span class="cmt"># 实例属性</span>
+        self.balance = balance
+
+    <span class="cmt"># 实例方法：能访问 self（实例数据）</span>
+    <span class="kw">def</span> <span class="fn">deposit</span>(self, amount):
+        self.balance += amount
+
+    <span class="cmt"># 类方法：能访问 cls（类数据）</span>
+    @<span class="dec">classmethod</span>
+    <span class="kw">def</span> <span class="fn">get_bank_name</span>(cls):
+        <span class="kw">return</span> cls.bank_name
+
+    <span class="cmt"># 静态方法：不能访问 self 也不能访问 cls</span>
+    @<span class="dec">staticmethod</span>
+    <span class="kw">def</span> <span class="fn">is_valid_amount</span>(amount):
+        <span class="kw">return</span> amount > 0</div>
+    <table>
+      <tr><th>类型</th><th>第一个参数</th><th>能访问什么</th></tr>
+      <tr><td>实例方法</td><td>self</td><td>实例属性 + 类属性</td></tr>
+      <tr><td>类方法</td><td>cls</td><td>类属性（不能访问实例属性）</td></tr>
+      <tr><td>静态方法</td><td>无</td><td>都不能访问（工具函数）</td></tr>
+    </table>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag tag-proj">实战：BankAccount 类</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 4 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-purple">Day 4</span>
+    封装与属性
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🔒</span>
+      <span class="topic-name">私有属性和封装</span>
+    </div>
+    <div class="topic-desc">用下划线控制访问权限，保护数据不被乱改</div>
+    <table>
+      <tr><th>命名</th><th>含义</th><th>外部能访问吗</th></tr>
+      <tr><td>name</td><td>公开属性</td><td>✅ 可以</td></tr>
+      <tr><td>_name</td><td>约定私有（提示别改）</td><td>✅ 可以但不建议</td></tr>
+      <tr><td>__name</td><td>强制私有（改名混淆）</td><td>❌ 不能直接访问</td></tr>
+    </table>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Account</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, owner, balance):
+        self.owner = owner        <span class="cmt"># 公开</span>
+        self._type = <span class="str">"储蓄"</span>      <span class="cmt"># 约定私有</span>
+        self.__balance = balance  <span class="cmt"># 强制私有</span>
+
+    <span class="cmt"># 通过方法控制访问（getter）</span>
+    <span class="kw">def</span> <span class="fn">get_balance</span>(self):
+        <span class="kw">return</span> self.__balance
+
+    <span class="cmt"># 通过方法控制修改（setter）</span>
+    <span class="kw">def</span> <span class="fn">set_balance</span>(self, value):
+        <span class="kw">if</span> value < 0:
+            <span class="kw">print</span>(<span class="str">"余额不能为负数！"</span>)
+            <span class="kw">return</span>
+        self.__balance = value
+
+acc = Account(<span class="str">"小明"</span>, 1000)
+<span class="kw">print</span>(acc.get_balance())   <span class="cmt"># 1000</span>
+acc.set_balance(-100)         <span class="cmt"># 余额不能为负数！</span>
+acc.set_balance(2000)
+<span class="kw">print</span>(acc.get_balance())   <span class="cmt"># 2000</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">_ vs __ 的区别</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🏠</span>
+      <span class="topic-name">@property 装饰器</span>
+    </div>
+    <div class="topic-desc">让方法像属性一样使用，不用写 get_xxx()</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Account</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, balance):
+        self.__balance = balance
+
+    @<span class="dec">property</span>
+    <span class="kw">def</span> <span class="fn">balance</span>(self):          <span class="cmt"># 像属性一样读</span>
+        <span class="kw">return</span> self.__balance
+
+    @balance.setter
+    <span class="kw">def</span> <span class="fn">balance</span>(self, value):     <span class="cmt"># 像属性一样写</span>
+        <span class="kw">if</span> value < 0:
+            <span class="kw">raise</span> <span class="dec">ValueError</span>(<span class="str">"不能为负"</span>)
+        self.__balance = value
+
+acc = Account(1000)
+<span class="kw">print</span>(acc.balance)    <span class="cmt"># 1000（不用写括号！）</span>
+acc.balance = 2000     <span class="cmt"># 直接赋值（自动调 setter）</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">Python 特色语法</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📊</span>
+      <span class="topic-name">类属性 vs 实例属性</span>
+    </div>
+    <div class="topic-desc">类属性所有对象共享，实例属性每个对象独有</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Student</span>:
+    school = <span class="str">"北京大学"</span>     <span class="cmt"># 类属性：所有学生共享</span>
+    count = 0                  <span class="cmt"># 类属性：计数器</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name):
+        self.name = name       <span class="cmt"># 实例属性：每个学生独有</span>
+        Student.count += 1     <span class="cmt"># 修改类属性</span>
+
+s1 = Student(<span class="str">"小明"</span>)
+s2 = Student(<span class="str">"小红"</span>)
+<span class="kw">print</span>(Student.count)     <span class="cmt"># 2</span>
+<span class="kw">print</span>(s1.school)        <span class="cmt"># 北京大学</span>
+<span class="kw">print</span>(s2.school)        <span class="cmt"># 北京大学（共享）</span></div>
+    <div class="tags">
+      <span class="tag">易混淆点</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 5 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-purple">Day 5</span>
+    继承与魔术方法
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">👨‍👦</span>
+      <span class="topic-name">继承和 super()</span>
+    </div>
+    <div class="topic-desc">子类继承父类的属性和方法，可以复用代码</div>
+    <div class="code-block"><span class="cmt"># 父类</span>
+<span class="kw">class</span> <span class="dec">Animal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, age):
+        self.name = name
+        self.age = age
+
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">print</span>(f<span class="str">"{self.name}发出了声音"</span>)
+
+<span class="cmt"># 子类继承 Animal</span>
+<span class="kw">class</span> <span class="dec">Dog</span>(Animal):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, age, breed):
+        <span class="dec">super</span>().__init__(name, age)  <span class="cmt"># 调用父类的 __init__</span>
+        self.breed = breed       <span class="cmt"># 子类自己的属性</span>
+
+    <span class="kw">def</span> <span class="fn">speak</span>(self):           <span class="cmt"># 重写父类方法</span>
+        <span class="kw">print</span>(f<span class="str">"{self.name}汪汪叫！"</span>)
+
+<span class="kw">class</span> <span class="dec">Cat</span>(Animal):
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">print</span>(f<span class="str">"{self.name}喵喵叫！"</span>)
+
+dog = Dog(<span class="str">"旺财"</span>, 3, <span class="str">"金毛"</span>)
+dog.speak()   <span class="cmt"># 旺财汪汪叫！</span>
+
+cat = Cat(<span class="str">"咪咪"</span>, 2)
+cat.speak()   <span class="cmt"># 咪咪喵喵叫！</span></div>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag tag-proj">实战：Animal → Dog/Cat</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">✨</span>
+      <span class="topic-name">魔术方法（__str__、__eq__、__repr__）</span>
+    </div>
+    <div class="topic-desc">让对象打印更好看、支持比较运算</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Student</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, score):
+        self.name = name
+        self.score = score
+
+    <span class="cmt"># 打印对象时显示什么（给人看）</span>
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> f<span class="str">"Student({self.name}, {self.score}分)"</span>
+
+    <span class="cmt"># 开发调试时显示什么（给程序员看）</span>
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self):
+        <span class="kw">return</span> f<span class="str">"Student(name='{self.name}', score={self.score})"</span>
+
+    <span class="cmt"># 支持 == 比较</span>
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other):
+        <span class="kw">return</span> self.score == other.score
+
+    <span class="cmt"># 支持 < 比较（用于排序）</span>
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, other):
+        <span class="kw">return</span> self.score < other.score
+
+s1 = Student(<span class="str">"小明"</span>, 90)
+s2 = Student(<span class="str">"小红"</span>, 85)
+
+<span class="kw">print</span>(s1)       <span class="cmt"># Student(小明, 90分)</span>
+<span class="kw">print</span>(s1 == s2)  <span class="cmt"># False</span>
+<span class="kw">print</span>(s1 < s2)   <span class="cmt"># False（90不小于85）</span>
+
+<span class="cmt"># 排序</span>
+students = [s2, s1]
+students.sort()  <span class="cmt"># 按 __lt__ 排序</span></div>
+    <table>
+      <tr><th>方法</th><th>触发时机</th></tr>
+      <tr><td>__str__</td><td>print(对象) 或 str(对象)</td></tr>
+      <tr><td>__repr__</td><td>直接显示对象、调试时</td></tr>
+      <tr><td>__eq__</td><td>对象 == 对象</td></tr>
+      <tr><td>__lt__</td><td>对象 &lt; 对象</td></tr>
+      <tr><td>__len__</td><td>len(对象)</td></tr>
+      <tr><td>__add__</td><td>对象 + 对象</td></tr>
+    </table>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🔍</span>
+      <span class="topic-name">isinstance() 和 类型检查</span>
+    </div>
+    <div class="topic-desc">判断对象是不是某个类的实例</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Animal</span>: <span class="kw">pass</span>
+<span class="kw">class</span> <span class="dec">Dog</span>(Animal): <span class="kw">pass</span>
+
+dog = Dog()
+
+<span class="kw">print</span>(<span class="fn">isinstance</span>(dog, Dog))     <span class="cmt"># True</span>
+<span class="kw">print</span>(<span class="fn">isinstance</span>(dog, Animal))   <span class="cmt"># True（Dog继承自Animal）</span>
+<span class="kw">print</span>(<span class="fn">isinstance</span>(dog, <span class="dec">str</span>))       <span class="cmt"># False</span>
+
+<span class="cmt"># type() 只匹配精确类型，不考虑继承</span>
+<span class="kw">print</span>(<span class="fn">type</span>(dog) == Dog)         <span class="cmt"># True</span>
+<span class="kw">print</span>(<span class="fn">type</span>(dog) == Animal)      <span class="cmt"># False（不考虑继承）</span></div>
+    <div class="tags">
+      <span class="tag">isinstance vs type</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 6 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-green">Day 6</span>
+    迭代器、生成器、上下文管理
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🔄</span>
+      <span class="topic-name">迭代器（__iter__、__next__）</span>
+    </div>
+    <div class="topic-desc">让自定义类支持 for 循环遍历</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">Counter</span>:
+    <span class="cmt"># 可迭代的：返回一个迭代器</span>
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self):
+        self.n = 0
+        <span class="kw">return</span> self
+
+    <span class="cmt"># 迭代器：返回下一个值</span>
+    <span class="kw">def</span> <span class="fn">__next__</span>(self):
+        self.n += 1
+        <span class="kw">if</span> self.n > 5:
+            <span class="kw">raise</span> <span class="dec">StopIteration</span>   <span class="cmt"># 结束信号</span>
+        <span class="kw">return</span> self.n
+
+<span class="cmt"># 现在可以用 for 遍历了！</span>
+<span class="kw">for</span> num <span class="kw">in</span> Counter():
+    <span class="kw">print</span>(num)
+<span class="cmt"># 输出：1 2 3 4 5</span></div>
+    <div class="tags">
+      <span class="tag">for 循环的原理</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">⚡</span>
+      <span class="topic-name">生成器（yield）</span>
+    </div>
+    <div class="topic-desc">用 yield 创建迭代器，一次只产出一个值，省内存</div>
+    <div class="code-block"><span class="cmt"># 生成器函数：遇到 yield 暂停，下次从暂停处继续</span>
+<span class="kw">def</span> <span class="fn">counter</span>():
+    n = 1
+    <span class="kw">while</span> n <= 5:
+        <span class="kw">yield</span> n      <span class="cmt"># 产出 n，暂停</span>
+        n += 1       <span class="cmt"># 下次调用从这里继续</span>
+
+<span class="kw">for</span> num <span class="kw">in</span> counter():
+    <span class="kw">print</span>(num)
+<span class="cmt"># 输出：1 2 3 4 5</span>
+
+<span class="cmt"># 生成器表达式（类似列表推导式，但用圆括号）</span>
+squares = (x**2 <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(1000000))
+<span class="cmt"># 不占内存！一次只算一个</span></div>
+    <table>
+      <tr><th>对比</th><th>列表推导式 []</th><th>生成器 ()</th></tr>
+      <tr><td>内存</td><td>全部加载</td><td>一次一个</td></tr>
+      <tr><td>能遍历几次</td><td>多次</td><td>一次</td></tr>
+      <tr><td>能索引</td><td>✅</td><td>❌</td></tr>
+    </table>
+    <div class="tags">
+      <span class="tag tag-key">核心知识点</span>
+      <span class="tag">大数据处理利器</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📦</span>
+      <span class="topic-name">上下文管理器（__enter__、__exit__）</span>
+    </div>
+    <div class="topic-desc">让自定义类支持 with 语句，自动清理资源</div>
+    <div class="code-block"><span class="kw">class</span> <span class="dec">FileManager</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, filename, mode):
+        self.filename = filename
+        self.mode = mode
+
+    <span class="kw">def</span> <span class="fn">__enter__</span>(self):
+        self.f = <span class="fn">open</span>(self.filename, self.mode, encoding=<span class="str">"utf-8"</span>)
+        <span class="kw">return</span> self.f    <span class="cmt"># 返回给 as 后面的变量</span>
+
+    <span class="kw">def</span> <span class="fn">__exit__</span>(self, exc_type, exc_val, exc_tb):
+        self.f.close()   <span class="cmt"># 自动关闭</span>
+        <span class="kw">return</span> <span class="kw">True</span>   <span class="cmt"># True 表示吞掉异常</span>
+
+<span class="cmt"># 现在可以用 with 了！</span>
+<span class="kw">with</span> FileManager(<span class="str">"test.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    f.write(<span class="str">"hello"</span>)
+<span class="cmt"># 出了 with 块，自动调 __exit__ 关文件</span></div>
+    <div class="tags">
+      <span class="tag">with 语句的原理</span>
+    </div>
+  </div>
+</div>
+
+<!-- Day 7 -->
+<div class="section">
+  <div class="section-title">
+    <span class="day-badge badge-red">Day 7</span>
+    毕业实战：用 OOP 重构记账本
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">🎓</span>
+      <span class="topic-name">把 8 个函数变成一个 AccountBook 类</span>
+    </div>
+    <div class="topic-desc">综合运用一周所学，重构你的记账本项目</div>
+    <div class="code-block"><span class="kw">import</span> json
+
+<span class="kw">class</span> <span class="dec">AccountBook</span>:
+    <span class="cmt"># 类属性</span>
+    FILE_NAME = <span class="str">"records.json"</span>
+
+    <span class="cmt"># 初始化</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.records = []          <span class="cmt"># 实例属性</span>
+        self.load_data()
+
+    <span class="cmt"># 私有方法：加载数据</span>
+    <span class="kw">def</span> <span class="fn">load_data</span>(self):
+        <span class="kw">try</span>:
+            <span class="kw">with</span> <span class="fn">open</span>(self.FILE_NAME, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+                self.records = json.load(f)
+        <span class="kw">except</span> (FileNotFoundError, json.JSONDecodeError):
+            self.records = []
+
+    <span class="cmt"># 私有方法：保存数据</span>
+    <span class="kw">def</span> <span class="fn">_save_data</span>(self):
+        <span class="kw">with</span> <span class="fn">open</span>(self.FILE_NAME, <span class="str">"w"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+            json.dump(self.records, f, ensure_ascii=<span class="kw">False</span>, indent=2)
+
+    <span class="cmt"># 添加记录</span>
+    <span class="kw">def</span> <span class="fn">add_record</span>(self):
+        ...
+
+    <span class="cmt"># 统计（用 @property 让它像属性一样访问）</span>
+    @<span class="dec">property</span>
+    <span class="kw">def</span> <span class="fn">balance</span>(self):
+        income = <span class="fn">sum</span>(r[<span class="str">"金额"</span>] <span class="kw">for</span> r <span class="kw">in</span> self.records <span class="kw">if</span> r[<span class="str">"类型"</span>] == <span class="str">"收入"</span>)
+        expense = <span class="fn">sum</span>(r[<span class="str">"金额"</span>] <span class="kw">for</span> r <span class="kw">in</span> self.records <span class="kw">if</span> r[<span class="str">"类型"</span>] == <span class="str">"支出"</span>)
+        <span class="kw">return</span> income - expense
+
+    <span class="cmt"># 可迭代：支持 for record in book</span>
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self):
+        <span class="kw">return</span> <span class="fn">iter</span>(self.records)
+
+    <span class="cmt"># 打印时显示摘要</span>
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> f<span class="str">"AccountBook(共{len(self.records)}条记录, 余额{self.balance})"</span>
+
+    <span class="cmt"># 主菜单</span>
+    <span class="kw">def</span> <span class="fn">run</span>(self):
+        <span class="kw">while</span> <span class="kw">True</span>:
+            <span class="cmt"># ... 菜单逻辑</span>
+            <span class="kw">pass</span>
+
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    book = AccountBook()    <span class="cmt"># 创建对象</span>
+    book.run()              <span class="cmt"># 启动程序</span>
+    <span class="kw">print</span>(book)             <span class="cmt"># AccountBook(共5条记录, 余额4965)</span>
+    <span class="kw">for</span> r <span class="kw">in</span> book:       <span class="cmt"># 遍历所有记录</span>
+        <span class="kw">print</span>(r)</div>
+    <div class="tags">
+      <span class="tag tag-proj">毕业项目</span>
+      <span class="tag">综合运用：__init__ + @property + __iter__ + __str__ + 封装</span>
+    </div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <span class="topic-icon">📊</span>
+      <span class="topic-name">重构前 vs 重构后对比</span>
+    </div>
+    <table>
+      <tr><th>对比</th><th>重构前（函数版）</th><th>重构后（OOP版）</th></tr>
+      <tr><td>数据管理</td><td>records 到处传</td><td>self.records 自己管</td></tr>
+      <tr><td>保存逻辑</td><td>每个函数都调 save_data</td><td>修改后自动保存</td></tr>
+      <tr><td>代码组织</td><td>8个散函数</td><td>1个类，方法内聚</td></tr>
+      <tr><td>可扩展性</td><td>加功能要改很多地方</td><td>加方法就行</td></tr>
+      <tr><td>可读性</td><td>一般</td><td>book.balance 一看就懂</td></tr>
+    </table>
+    <div class="tags">
+      <span class="tag">体会 OOP 的优势</span>
+    </div>
+  </div>
+</div>
+
+<!-- 知识点清单 -->
+<div class="section">
+  <div class="section-title">📋 完整知识点清单</div>
+  <table>
+    <tr><th>Day</th><th>知识点</th><th>重要程度</th><th>实战项目</th></tr>
+    <tr><td>Day 1</td><td>*args / **kwargs</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 1</td><td>lambda 匿名函数</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 1</td><td>map / filter / sorted(key=)</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 1</td><td>zip / enumerate 进阶</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 1</td><td>可变默认参数陷阱</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 2</td><td>装饰器 @decorator</td><td>⭐⭐⭐</td><td>计时装饰器</td></tr>
+    <tr><td>Day 2</td><td>模块和包（import 进阶）</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 2</td><td>深浅拷贝 copy / deepcopy</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 2</td><td>类型注解 Type Hints</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 3</td><td>类和对象、__init__、self</td><td>⭐⭐⭐</td><td>Student 类</td></tr>
+    <tr><td>Day 3</td><td>实例/类/静态方法</td><td>⭐⭐⭐</td><td>BankAccount 类</td></tr>
+    <tr><td>Day 4</td><td>私有属性 _ vs __</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 4</td><td>@property 装饰器</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 4</td><td>类属性 vs 实例属性</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 5</td><td>继承、super()、方法重写</td><td>⭐⭐⭐</td><td>Animal→Dog/Cat</td></tr>
+    <tr><td>Day 5</td><td>魔术方法 __str__/__eq__/__lt__</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 5</td><td>isinstance() vs type()</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 6</td><td>迭代器 __iter__/__next__</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 6</td><td>生成器 yield</td><td>⭐⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 6</td><td>上下文管理器 __enter__/__exit__</td><td>⭐⭐</td><td>—</td></tr>
+    <tr><td>Day 7</td><td>综合实战</td><td>⭐⭐⭐</td><td>记账本 OOP 重构</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  <p>Python 进阶一周学习计划 | 面向对象 + Python 进阶基础</p>
+  <p>每天建议学习时间 1.5-2 小时 | 先看概念，再写代码，最后做练习</p>
+</div>
+
+</body>
+</html>
