@@ -7,3 +7,4 @@ venv/
 *.log
 *.tmp
 .DS_Store
+m1_book_*.json
